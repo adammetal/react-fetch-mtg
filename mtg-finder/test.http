@@ -1,0 +1,4 @@
+GET https://api.scryfall.com/cards/search?q=mistbinder
+###
+
+GET http://localhost:8080/cards
