@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Finder from "./Finder";
 import Loader from "./Loader";
 
-const NAMES_API = "/api/cards";
+const NAMES_API = "/api/names";
 
-const useNames = () => {
+function App() {
   const [names, setNames] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,14 +24,10 @@ const useNames = () => {
     return () => controller.abort();
   }, []);
 
-  return [ names, loading ];
-};
-
-function App() {
-  const [ names, loading ] = useNames();
-
   return (
-    <div className="App">{loading ? <Loader /> : <Finder names={names} />}</div>
+    <div className="App">
+      {loading ? <Loader /> : <Finder names={names} />}
+    </div>
   );
 }
 

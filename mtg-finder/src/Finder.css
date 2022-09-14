@@ -1,10 +1,17 @@
 .Finder {
-  display: grid;
-  gap: 1rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 5rem;
+  gap: 2rem;
 }
 
-.Finder input {
-  width: 100%;
-  padding: .5rem;
-  font-size: 1.5rem;
+.Finder .cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Finder .cards > img {
+  max-width: 380px;
 }

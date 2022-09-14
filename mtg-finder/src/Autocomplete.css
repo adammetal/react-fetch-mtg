@@ -1,0 +1,33 @@
+.Autocomplete {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.Autocomplete > input {
+  padding: 1rem;
+  font-size: 1.5rem;
+  border: none;
+  outline: none;
+  width: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.475);
+}
+
+.Autocomplete > .hits {
+  width: 50%;
+  background-color: beige;
+  position: absolute;
+  left: 50%;
+  top: 3.75rem;
+  transform: translateX(-50%);
+}
+
+.Autocomplete > .hits > .hit {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.Autocomplete > .hits > .hit:hover,
+.Autocomplete > .hits > .hit.active {
+  background-color: aquamarine;
+}

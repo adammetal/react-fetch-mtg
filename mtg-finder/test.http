@@ -1,4 +1,4 @@
-GET https://api.scryfall.com/cards/search?q=mistbinder
+GET http://localhost:8080/api/cards?q=murder
 ###
 
-GET http://localhost:8080/cards
+GET http://localhost:8080/api/names

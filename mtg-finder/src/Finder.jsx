@@ -1,63 +1,82 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Autocomplete from "./Autocomplete";
+import Loader from "./Loader";
 import "./Finder.css";
+
 
 const URL = "https://api.scryfall.com/cards/search?q=";
 
-const searchCardByName = async (name) => {
+const searchCardsByName = async (name) => {
   const result = await fetch(URL + name);
 
   if (!result.ok) {
     return null;
   }
 
-  const card = await result.json();
-  console.log(card.data[0].image_uris.normal);
-  return card;
+  const cards = await result.json();
+  return cards.data;
 };
 
 const useCardSearchApi = () => {
-  const [card, setCard] = useState(null);
-  
-  const search = async (name) => {
-    setCard(null);
-    const result = await searchCardByName(name)
-    setCard(result);
-  };
-  
-  return {card,search};
-}
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const search = useCallback((name) => {
+    setCards([]);
+    setLoading(true);
+    searchCardsByName(name).then((result) => {
+      setCards(result);
+      setLoading(false);
+    });
+  }, []);
+
+  return { cards, search, loading };
+};
+
+const Card = ({ image }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+
+    const img = document.createElement("img");
+
+    const onLoad = () => {
+      setLoading(false);
+    };
+
+    img.src = image;
+
+    img.addEventListener("load", onLoad);
+    
+    return () => {
+      img.removeEventListener("load", onLoad);
+    };
+  }, [image]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  return <img className="Card" src={image} alt="" />;
+};
 
 const Finder = ({ names }) => {
-  const timer = useRef();
-  const { card, search } = useCardSearchApi();
-
-  const onChange = (e) => {
-    clearTimeout(timer.current);
-
-    if (!e.target.value.length) {
-      return;
-    }
-
-    timer.current = setTimeout(() => {
-      clearTimeout(timer.current);
-      search(e.target.value);
-    }, 800);
-  };
+  const { cards, search, loading } = useCardSearchApi();
 
   return (
     <div className="Finder">
       <section>
-        <input list="cards" type="text" onInput={onChange} />
-        <datalist id="cards">
-          {names.map((name) => {
-            return <option value={name} key={name} />;
-          })}
-        </datalist>
+        <Autocomplete items={names} onChange={search} />
       </section>
-      <section>
-        {card !== null ? (
-          <img src={card.data[0].image_uris.normal} alt="" />
-        ) : null}
+      <section className="cards">
+        {loading ? (
+          <Loader />
+        ) : (
+          cards.filter(card => !!card.image_uris).map((card) => {
+            return <Card image={card.image_uris.png} key={card.id} />;
+          })
+        )}
       </section>
     </div>
   );
