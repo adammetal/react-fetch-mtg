@@ -3,8 +3,8 @@ import "./Autocomplete.css";
 import Loader from "./Loader";
 
 const Autocomplete = ({ items, onChange }) => {
-  const [isPengind, startTransition] = useTransition();
-  const [value, setValue] = useState("");
+  const [isPending, startTransition] = useTransition();
+  const [inputValue, setInputValue] = useState("");
   const [hits, setHits] = useState([]);
   const [activeHit, setActiveHit] = useState(-1);
 
@@ -13,18 +13,18 @@ const Autocomplete = ({ items, onChange }) => {
       target: { value: search },
     } = e;
 
-    setValue(search);
+    startTransition(() => {
+      const nextHits = findHits(search);
+      setHits(nextHits);
+    });
+
+    setInputValue(search);
     setActiveHit(-1);
 
     if (!search.length) {
       setHits([]);
       return;
     }
-
-    startTransition(() => {
-      const nextHits = findHits(search);
-      setHits(nextHits);
-    });
   };
 
   const onKeyDown = (e) => {
@@ -50,16 +50,17 @@ const Autocomplete = ({ items, onChange }) => {
     if (key === "Enter") {
       if (activeHit > -1) {
         selectHit(hits[activeHit]);
-      } else if (value.length > 3) {
-        setActiveHit(-1);
-        setHits([]);
-        onChange(value);
       }
     }
   };
 
   const findHits = (term) => {
+    if (!term) {
+      return [];
+    }
+
     const lower = term.toLowerCase();
+
     return items.filter((item) => {
       return item.toLowerCase().includes(lower);
     });
@@ -67,7 +68,7 @@ const Autocomplete = ({ items, onChange }) => {
 
   const selectHit = (hit) => {
     setActiveHit(-1);
-    setValue(hit);
+    setInputValue(hit);
     setHits([]);
     onChange(hit);
   };
@@ -76,12 +77,12 @@ const Autocomplete = ({ items, onChange }) => {
     <div className="Autocomplete">
       <input
         type="text"
+        value={inputValue}
         placeholder="Search for a card"
-        value={value}
         onChange={onInputValueChange}
         onKeyDown={onKeyDown}
       />
-      {isPengind ? (
+      {isPending ? (
         <div className="hits">
           <Loader />
         </div>
