@@ -50,6 +50,10 @@ const Autocomplete = ({ items, onChange }) => {
     if (key === "Enter") {
       if (activeHit > -1) {
         selectHit(hits[activeHit]);
+      } else if (inputValue.length > 3) {
+        setActiveHit(-1);
+        setHits([]);
+        onChange(inputValue);
       }
     }
   };
