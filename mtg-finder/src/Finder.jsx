@@ -3,56 +3,74 @@ import Autocomplete from "./Autocomplete";
 import Loader from "./Loader";
 import "./Finder.css";
 
+const NAMES_API = "/api/names";
+const CARDS_API = "https://api.scryfall.com/cards/search";
 
-const URL = "https://api.scryfall.com/cards/search?q=";
+const useFetch = (url, { startNow = true, mapper = (a) => a } = {}) => {
+  const [loading, setLoading] = useState(startNow);
+  const [data, setData] = useState(null);
 
-const searchCardsByName = async (name) => {
-  const result = await fetch(URL + name);
+  const action = useCallback(
+    (query = {}) => {
+      setLoading(true);
 
-  if (!result.ok) {
-    return null;
-  }
+      const search = new URLSearchParams();
+      for (const entry of Object.entries(query)) {
+        search.append(entry[0], entry[1]);
+      }
 
-  const cards = await result.json();
-  return cards.data;
+      fetch(url + "?" + search.toString())
+        .then((res) => res.json())
+        .then((res) => {
+          setData(res);
+          setLoading(false);
+        });
+    },
+    [url]
+  );
+
+  useEffect(() => {
+    if (startNow === true) {
+      action();
+    }
+  }, [action, startNow]);
+
+  const retData = data !== null ? mapper(data) : null;
+
+  return [loading, retData, action];
 };
 
-const useCardSearchApi = () => {
-  const [cards, setCards] = useState([]);
-  const [loading, setLoading] = useState(false);
+const preloadImage = (src, cb) => {
+  const img = document.createElement("img");
+  img.src = src;
 
-  const search = useCallback((name) => {
-    setCards([]);
-    setLoading(true);
-    searchCardsByName(name).then((result) => {
-      setCards(result);
-      setLoading(false);
-    });
-  }, []);
+  const onLoad = () => {
+    cb();
+  };
 
-  return { cards, search, loading };
+  img.addEventListener("load", onLoad);
+
+  return () => {
+    img.removeEventListener("load", onLoad);
+  };
 };
 
-const Card = ({ image }) => {
+const useImagePreload = (src) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
 
-    const img = document.createElement("img");
-
-    const onLoad = () => {
+    return preloadImage(src, () => {
       setLoading(false);
-    };
+    });
+  }, [src]);
 
-    img.src = image;
+  return loading;
+};
 
-    img.addEventListener("load", onLoad);
-    
-    return () => {
-      img.removeEventListener("load", onLoad);
-    };
-  }, [image]);
+const Card = ({ image }) => {
+  const loading = useImagePreload(image);
 
   if (loading) {
     return <Loader />;
@@ -61,22 +79,39 @@ const Card = ({ image }) => {
   return <img className="Card" src={image} alt="" />;
 };
 
-const Finder = ({ names }) => {
-  const { cards, search, loading } = useCardSearchApi();
+const Finder = () => {
+  const [cardsLoading, cards, fetchCards] = useFetch(CARDS_API, {
+    mapper: (cards) => cards.data,
+    startNow: false,
+  });
+
+  const [namesLoading, names] = useFetch(NAMES_API, {
+    mapper: (cards) => cards.map((card) => card.name),
+  });
+
+  const search = (value) => {
+    fetchCards({ q: value });
+  };
 
   return (
     <div className="Finder">
       <section>
-        <Autocomplete items={names} onChange={search} />
-      </section>
-      <section className="cards">
-        {loading ? (
+        {namesLoading ? (
           <Loader />
         ) : (
-          cards.filter(card => !!card.image_uris).map((card) => {
-            return <Card image={card.image_uris.png} key={card.id} />;
-          })
+          <Autocomplete items={names} onChange={search} />
         )}
+      </section>
+      <section className="cards">
+        {cardsLoading ? (
+          <Loader />
+        ) : cards !== null ? (
+          cards
+            .filter((card) => !!card.image_uris)
+            .map((card) => {
+              return <Card image={card.image_uris.png} key={card.id} />;
+            })
+        ) : null}
       </section>
     </div>
   );
