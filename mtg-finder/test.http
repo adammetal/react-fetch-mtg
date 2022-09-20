@@ -1,4 +1,43 @@
-GET http://localhost:8080/api/cards?q=murder
+GET http://localhost:8080/api/scry/cards?q=mistbinder
 ###
 
 GET http://localhost:8080/api/names
+###
+
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "adam.metal+1@codecool.com",
+  "password": "12345"
+}
+
+###
+POST http://localhost:8080/api/auth/signin
+Content-Type: application/json
+
+{
+  "email": "adam.metal+1@codecool.com",
+  "password": "12345"
+}
+
+###
+GET http://localhost:8080/api/auth/me
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM2NjUzMjB9.a7wuyaRQvz4DvY3_Qy6DSDXVlH8HvqNhfSxEM47EYws
+
+###
+GET http://localhost:8080/api/user
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM2NjUzMjB9.a7wuyaRQvz4DvY3_Qy6DSDXVlH8HvqNhfSxEM47EYws
+
+###
+GET http://localhost:8080/api/user/decks
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM2NjUzMjB9.a7wuyaRQvz4DvY3_Qy6DSDXVlH8HvqNhfSxEM47EYws
+
+###
+POST http://localhost:8080/api/user/decks
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM2NjUzMjB9.a7wuyaRQvz4DvY3_Qy6DSDXVlH8HvqNhfSxEM47EYws
+Content-Type: application/json
+
+{
+  "name": "Mono Raaad"
+}
