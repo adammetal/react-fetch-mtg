@@ -1,6 +1,34 @@
 import { useState, useTransition } from "react";
-import "./Autocomplete.css";
-import Loader from "./Loader";
+import Loader from "../Loader";
+import "./index.css";
+
+const HitList = ({ hits, activeHit, selectHit, pending }) => {
+  if (!hits.length) {
+    return null;
+  }
+
+  if (pending) {
+    return (
+      <div className="hits">
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <div className="hits">
+      {hits.map((hit, index) => (
+        <div
+          className={`${index === activeHit ? "hit active" : "hit"}`}
+          onClick={() => selectHit(hit)}
+          key={hit}
+        >
+          {hit}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const Autocomplete = ({ items, onChange }) => {
   const [isPending, startTransition] = useTransition();
@@ -14,8 +42,12 @@ const Autocomplete = ({ items, onChange }) => {
     } = e;
 
     startTransition(() => {
-      const nextHits = findHits(search);
-      setHits(nextHits);
+      if (search.length > 1) {
+        const nextHits = findHits(search);
+        setHits(nextHits);
+      } else {
+        setHits([]);
+      }
     });
 
     setInputValue(search);
@@ -86,24 +118,12 @@ const Autocomplete = ({ items, onChange }) => {
         onChange={onInputValueChange}
         onKeyDown={onKeyDown}
       />
-      {isPending ? (
-        <div className="hits">
-          <Loader />
-        </div>
-      ) : null}
-      {hits.length > 0 ? (
-        <div className="hits">
-          {hits.map((hit, index) => (
-            <div
-              className={`${index === activeHit ? "hit active" : "hit"}`}
-              onClick={() => selectHit(hit)}
-              key={hit}
-            >
-              {hit}
-            </div>
-          ))}
-        </div>
-      ) : null}
+      <HitList
+        pending={isPending}
+        hits={hits}
+        activeHit={activeHit}
+        selectHit={selectHit}
+      />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 
-const useFetch = (url, { startNow = true, mapper = (a) => a } = {}) => {
-  const [loading, setLoading] = useState(startNow);
+const useFetch = (url, { instant = true, mapper = (a) => a } = {}) => {
+  const [loading, setLoading] = useState(instant);
   const [data, setData] = useState(null);
 
   const action = useCallback(
@@ -24,10 +24,10 @@ const useFetch = (url, { startNow = true, mapper = (a) => a } = {}) => {
   );
 
   useEffect(() => {
-    if (startNow === true) {
+    if (instant === true) {
       action();
     }
-  }, [action, startNow]);
+  }, [action, instant]);
 
   const retData = data !== null ? mapper(data) : null;
 

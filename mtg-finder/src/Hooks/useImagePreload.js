@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import Loader from "./Loader";
+import { useState, useEffect } from "react";
 
 const preloadImage = (src, cb) => {
   const img = document.createElement("img");
@@ -30,14 +29,4 @@ const useImagePreload = (src) => {
   return loading;
 };
 
-const Card = ({ image }) => {
-  const loading = useImagePreload(image);
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  return <img className="Card" src={image} alt="" />;
-};
-
-export default Card;
+export default useImagePreload;

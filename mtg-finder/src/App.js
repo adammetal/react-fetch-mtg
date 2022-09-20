@@ -1,9 +1,9 @@
-import Finder from "./Finder";
+import CardFinder from "./Components/CardFinder";
 
 function App() {
   return (
     <div className="App">
-      <Finder />
+      <CardFinder />
     </div>
   );
 }
