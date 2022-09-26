@@ -1,14 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Main from "./Pages/Main";
+import AuthProvider from "./Context/AuthContext";
+import CardFinder from "./Components/CardFinder";
+import Login from "./Pages/Login";
+
 import "./index.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    children: [
+      { path: "/", element: <CardFinder /> },
+      { path: "/login", element: <Login /> }
+    ]
   },
 ]);
 
@@ -16,7 +24,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
 

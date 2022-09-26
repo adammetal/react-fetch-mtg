@@ -8,7 +8,7 @@ POST http://localhost:8080/api/auth/signup
 Content-Type: application/json
 
 {
-  "email": "adam.metal+1@codecool.com",
+  "email": "adam.metal@codecool.com",
   "password": "12345"
 }
 
@@ -17,13 +17,13 @@ POST http://localhost:8080/api/auth/signin
 Content-Type: application/json
 
 {
-  "email": "adam.metal+1@codecool.com",
+  "email": "adam.metal@codecool.com",
   "password": "12345"
 }
 
 ###
 GET http://localhost:8080/api/auth/me
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM4NjEzMjh9.FcGS03y0VhvQB2o2mTtH6RtXzrtpebRYCnI53hXkIrI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWxAY29kZWNvb2wuY29tIiwiX2lkIjoiNjMyOTgwNzM3MjI2YjkwNDQ3M2YwNjZkIiwiaWF0IjoxNjY0MTkxMDgxfQ.ugzuV0hF3ghpuApl5CgStXQZRDGoKvcFWF5yuoAHC9E
 
 ###
 GET http://localhost:8080/api/user
@@ -31,7 +31,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwr
 
 ###
 GET http://localhost:8080/api/user/decks
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM4NjEzMjh9.FcGS03y0VhvQB2o2mTtH6RtXzrtpebRYCnI53hXkIrI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWxAY29kZWNvb2wuY29tIiwiX2lkIjoiNjMyOTgwNzM3MjI2YjkwNDQ3M2YwNjZkIiwiaWF0IjoxNjY0MTkxMDgxfQ.ugzuV0hF3ghpuApl5CgStXQZRDGoKvcFWF5yuoAHC9E
 
 ###
 GET http://localhost:8080/api/user/decks/63298b5abc605f10aa997460
@@ -40,7 +40,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwr
 
 ###
 POST http://localhost:8080/api/user/decks
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM3NDMxNDR9.exfd4BF1a-nDV268xDshiX1mnsLRPdgENYHefHrfBtY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWxAY29kZWNvb2wuY29tIiwiX2lkIjoiNjMyOTgwNzM3MjI2YjkwNDQ3M2YwNjZkIiwiaWF0IjoxNjY0MTkxMDgxfQ.ugzuV0hF3ghpuApl5CgStXQZRDGoKvcFWF5yuoAHC9E
 Content-Type: application/json
 
 {

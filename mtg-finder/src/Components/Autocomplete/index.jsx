@@ -45,7 +45,7 @@ const HitList = ({ hits, activeHit, selectHit, pending }) => {
   );
 };
 
-const Autocomplete = ({ items, onChange }) => {
+const Autocomplete = ({ items, onChange, placeholder }) => {
   const [isPending, startTransition] = useTransition();
   const [inputValue, setInputValue] = useState("");
   const [hits, setHits] = useState([]);
@@ -131,7 +131,7 @@ const Autocomplete = ({ items, onChange }) => {
       <input
         type="text"
         value={inputValue}
-        placeholder="Search for a card"
+        placeholder={placeholder}
         onChange={onInputValueChange}
         onKeyDown={onKeyDown}
       />
