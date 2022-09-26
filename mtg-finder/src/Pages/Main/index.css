@@ -1,0 +1,32 @@
+.Main {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(270px, 1fr) 5fr;
+}
+
+.Main > .nav {
+  background-color: rgb(240, 240, 240);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.Main > .outlet {
+  background-color: blueviolet;
+}
+
+.Main > .nav > a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: rgb(220, 220, 220);
+  background-color: rgb(80, 80, 80);
+  margin: .5rem 0;
+  padding: .3rem;
+}
+
+.Main > .nav .title {
+  font-weight: bold;
+  font-size: 1.8rem;
+  text-decoration: underline;
+}

@@ -1,7 +1,11 @@
+import { useState } from "react";
+import cardSort from "../../utils/card-sort";
 import Loader from "../Loader";
 import Card from "./Card";
 
 const CardsList = ({ loading, cards }) => {
+  const [ordered, setOrdered] = useState(false);
+
   if (cards === null) {
     return null;
   }
@@ -10,12 +14,19 @@ const CardsList = ({ loading, cards }) => {
     return <Loader />;
   }
 
+  let cardsForJsx = ordered ? cardSort(cards) : cards;
+
   return (
     <>
-      {cards
+      <button onClick={() => setOrdered(true)}>Sort by cost</button>
+      {cardsForJsx
         .filter((card) => !!card.image_uris)
         .map((card) => {
-          return <Card image={card.image_uris.png} key={card.id} />;
+          return (
+            <div key={card.id} data-testid="card" id={card.id}>
+              <Card image={card.image_uris.png} />
+            </div>
+          );
         })}
     </>
   );

@@ -2,16 +2,12 @@ import { useState, useEffect } from "react";
 
 const preloadImage = (src, cb) => {
   const img = document.createElement("img");
+  img.addEventListener("load", cb);
+
   img.src = src;
 
-  const onLoad = () => {
-    cb();
-  };
-
-  img.addEventListener("load", onLoad);
-
   return () => {
-    img.removeEventListener("load", onLoad);
+    img.removeEventListener("load", cb);
   };
 };
 

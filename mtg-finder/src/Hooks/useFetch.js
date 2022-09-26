@@ -2,36 +2,53 @@ import { useState, useCallback, useEffect } from "react";
 
 const useFetch = (url, { instant = true, mapper = (a) => a } = {}) => {
   const [loading, setLoading] = useState(instant);
-  const [data, setData] = useState(null);
+  const [rawData, setRawData] = useState(null);
+  const [error, setError] = useState(null);
 
   const action = useCallback(
     (query = {}) => {
-      setLoading(true);
+      const abort = new AbortController();
 
-      const search = new URLSearchParams();
+      setLoading(true);
+      setError(false);
+
+      const params = new URLSearchParams();
       for (const entry of Object.entries(query)) {
-        search.append(entry[0], entry[1]);
+        params.append(entry[0], entry[1]);
       }
 
-      fetch(url + "?" + search.toString())
+      const search = params.toString();
+      const options = { signal: abort.signal };
+
+      fetch(`${url}?${search}`, options)
         .then((res) => res.json())
         .then((res) => {
-          setData(res);
+          setRawData(res);
           setLoading(false);
+        })
+        .catch((err) => {
+          if (err.name === "AbortError") {
+            return;
+          }
+          setError(err);
         });
+
+      return () => {
+        abort.abort();
+      };
     },
     [url]
   );
 
   useEffect(() => {
     if (instant === true) {
-      action();
+      return action();
     }
   }, [action, instant]);
 
-  const retData = data !== null ? mapper(data) : null;
+  const data = rawData !== null ? mapper(rawData) : null;
 
-  return [loading, retData, action];
+  return [loading, data, action, error];
 };
 
 export default useFetch;

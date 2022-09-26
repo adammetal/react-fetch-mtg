@@ -1,8 +1,23 @@
+import { useEffect } from "react";
+import { useRef } from "react";
 import { useState, useTransition } from "react";
 import Loader from "../Loader";
 import "./index.css";
 
 const HitList = ({ hits, activeHit, selectHit, pending }) => {
+  const hitsEl = useRef();
+
+  useEffect(() => {
+    if (!hits.length || pending) {
+      return;
+    }
+
+    if (activeHit > -1) {
+      const activeEl = hitsEl.current?.querySelector(".hit.active");
+      activeEl?.scrollIntoView({ block: 'center' });
+    }
+  }, [hits, pending, activeHit]);
+
   if (!hits.length) {
     return null;
   }
@@ -16,7 +31,7 @@ const HitList = ({ hits, activeHit, selectHit, pending }) => {
   }
 
   return (
-    <div className="hits">
+    <div className="hits" ref={hitsEl}>
       {hits.map((hit, index) => (
         <div
           className={`${index === activeHit ? "hit active" : "hit"}`}
@@ -62,6 +77,7 @@ const Autocomplete = ({ items, onChange }) => {
   const onKeyDown = (e) => {
     const key = e.code;
     if (key === "ArrowDown") {
+      e.preventDefault();
       setActiveHit((active) => {
         if (active < hits.length) {
           return active + 1;
@@ -71,6 +87,7 @@ const Autocomplete = ({ items, onChange }) => {
     }
 
     if (key === "ArrowUp") {
+      e.preventDefault();
       setActiveHit((active) => {
         if (active > -1) {
           return active - 1;

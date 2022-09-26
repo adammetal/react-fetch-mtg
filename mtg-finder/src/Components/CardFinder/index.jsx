@@ -1,5 +1,5 @@
 import useFetch from "../../Hooks/useFetch";
-import NamesInput from './NamesInput';
+import NamesInput from "./NamesInput";
 import CardsList from "./CardList";
 import "./index.css";
 
@@ -20,9 +20,11 @@ const CardFinder = () => {
       <section>
         <NamesInput onChange={search} />
       </section>
-      <section className="cards">
-        <CardsList loading={loading} cards={cards} />
-      </section>
+      {cards &&  cards.length && (
+        <section className="cards">
+          <CardsList loading={loading} cards={cards} />
+        </section>
+      )}
     </div>
   );
 };
