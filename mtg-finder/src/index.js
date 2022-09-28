@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Main from "./Pages/Main";
 import AuthProvider from "./Context/AuthContext";
+import DeckStoreProvider from "./Context/DeckContext";
 import CardFinder from "./Components/CardFinder";
 import Login from "./Pages/Login";
 
@@ -15,8 +16,8 @@ const router = createBrowserRouter([
     element: <Main />,
     children: [
       { path: "/", element: <CardFinder /> },
-      { path: "/login", element: <Login /> }
-    ]
+      { path: "/login", element: <Login /> },
+    ],
   },
 ]);
 
@@ -25,7 +26,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <DeckStoreProvider>
+        <RouterProvider router={router} />
+      </DeckStoreProvider>
     </AuthProvider>
   </React.StrictMode>
 );

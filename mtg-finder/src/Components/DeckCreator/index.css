@@ -1,0 +1,15 @@
+.DeckCreator input {
+  width: 100%;
+  font-size: 1.5rem;
+  padding: .2rem;
+  outline: none;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+.DeckCreator button {
+  width: 100%;
+  margin-top: .5rem;
+  padding: .2rem;
+  font-size: 1.5rem;
+}

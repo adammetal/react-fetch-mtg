@@ -1,11 +1,15 @@
 import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
-import CardFinder from "../../Components/CardFinder";
 import { AuthContext } from "../../Context/AuthContext";
+import { useDeckStore } from "../../Context/DeckContext";
+import DeckCreator from "../../Components/DeckCreator";
+
 import "./index.css";
 
 const Main = () => {
-  const { user, signin, signout } = useContext(AuthContext);
+  const { user, signout } = useContext(AuthContext);
+
+  const decks = useDeckStore((state) => state.decks);
 
   return (
     <main className="Main">
@@ -19,9 +23,7 @@ const Main = () => {
         {!user && (
           <>
             <a href="#">Sign up</a>
-            <Link to="/login">
-              Sign in
-            </Link>
+            <Link to="/login">Sign in</Link>
           </>
         )}
 
@@ -36,9 +38,12 @@ const Main = () => {
             <header>
               <h2>My Decks</h2>
             </header>
-            <a href="#">My decks</a>
-            <a href="#">My decks</a>
-            <a href="#">My decks</a>
+            {decks.map((deck) => (
+              <a herf="#" key={deck.name}>
+                {deck.name}
+              </a>
+            ))}
+            <DeckCreator />
           </>
         )}
       </nav>

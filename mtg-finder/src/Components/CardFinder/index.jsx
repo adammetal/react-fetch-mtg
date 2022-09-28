@@ -20,7 +20,7 @@ const CardFinder = () => {
       <section>
         <NamesInput onChange={search} />
       </section>
-      {cards &&  cards.length && (
+      {cards && cards.length && (
         <section className="cards">
           <CardsList loading={loading} cards={cards} />
         </section>
