@@ -6,9 +6,10 @@ import Main from "./Pages/Main";
 import AuthProvider from "./Context/AuthContext";
 import DeckStoreProvider from "./Context/DeckContext";
 import CardFinder from "./Components/CardFinder";
-import Login from "./Pages/Login";
 
 import "./index.css";
+import SignIn from "./Pages/SignIn";
+import SignUp from "./Pages/Signup";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
     element: <Main />,
     children: [
       { path: "/", element: <CardFinder /> },
-      { path: "/login", element: <Login /> },
+      { path: "/signin", element: <SignIn /> },
+      { path: "/signup", element: <SignUp /> },
     ],
   },
 ]);

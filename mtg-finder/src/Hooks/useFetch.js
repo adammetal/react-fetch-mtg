@@ -1,6 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
 
-const useFetch = (url, { instant = true, mapper = (a) => a } = {}) => {
+const useFetch = (
+  url,
+  { instant = true, mapper = (a) => a, token = "" } = {}
+) => {
   const [loading, setLoading] = useState(instant);
   const [rawData, setRawData] = useState(null);
   const [error, setError] = useState(null);
@@ -18,7 +21,15 @@ const useFetch = (url, { instant = true, mapper = (a) => a } = {}) => {
       }
 
       const search = params.toString();
-      const options = { signal: abort.signal };
+      const options = {
+        signal: abort.signal,
+      };
+
+      if (token && token.length) {
+        options.headers = {
+          Authorization: token,
+        };
+      }
 
       fetch(`${url}?${search}`, options)
         .then((res) => res.json())

@@ -2,7 +2,6 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const AuthModel = require("./auth.schema");
 const UserModel = require("../user/user.schema");
-const { default: mongoose } = require("mongoose");
 
 const SALT = "12345";
 

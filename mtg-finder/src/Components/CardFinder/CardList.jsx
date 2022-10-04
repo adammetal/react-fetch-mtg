@@ -1,25 +1,16 @@
-import { useState } from "react";
-import cardSort from "../../utils/card-sort";
-import Loader from "../Loader";
 import Card from "./Card";
 
-const CardsList = ({ loading, cards }) => {
-  const [ordered, setOrdered] = useState(false);
+const CardsList = ({ cardsResource }) => {
+  const cards = cardsResource.read();
 
-  if (cards === null) {
+  if (!cards || !cards.length) {
     return null;
   }
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  let cardsForJsx = ordered ? cardSort(cards) : cards;
-
   return (
-    <>
-      <button onClick={() => setOrdered(true)}>Sort by cost</button>
-      {cardsForJsx
+    <section className="cards">
+      {cardsResource
+        .read()
         .filter((card) => !!card.image_uris)
         .map((card) => {
           return (
@@ -28,7 +19,7 @@ const CardsList = ({ loading, cards }) => {
             </div>
           );
         })}
-    </>
+    </section>
   );
 };
 

@@ -1,16 +1,23 @@
 import { useContext } from "react";
 import { useState } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../Context/AuthContext";
 
-const Login = () => {
+import "./index.css";
+
+const AuthForm = ({ isSignIn }) => {
+  const navigate = useNavigate();
   const { signin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onLogin = () => {
+  const onSubmit = () => {
     const body = JSON.stringify({ email, password });
+    const url = isSignIn ? "/api/auth/signin" : "/api/auth/signup";
 
-    fetch("/api/auth/signin", {
+    setLoading(true);
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,13 +33,21 @@ const Login = () => {
         return res.json();
       })
       .then((user) => {
-        signin(user);
+        if (isSignIn) {
+          signin(user);
+          return navigate('/');
+        }
+        navigate("/signin");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   return (
-    <div>
+    <div className="Login">
       <input
+        disabled={loading}
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
@@ -40,8 +55,8 @@ const Login = () => {
         type="text"
         placeholder="Email"
       />
-      <br />
       <input
+        disabled={loading}
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
@@ -49,12 +64,11 @@ const Login = () => {
         type="password"
         placeholder="Password"
       />
-      <br />
-      <button type="submit" onClick={onLogin}>
-        Login
+      <button disabled={loading} type="submit" onClick={onSubmit}>
+        {isSignIn ? "Sign In" : "Sign Up"}
       </button>
     </div>
   );
 };
 
-export default Login;
+export default AuthForm;

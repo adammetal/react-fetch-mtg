@@ -1,30 +1,38 @@
-import useFetch from "../../Hooks/useFetch";
-import NamesInput from "./NamesInput";
+import { useState, Suspense } from "react";
+import CardNameInput from "./CardNameInput";
 import CardsList from "./CardList";
+import Loader from "../Loader";
+import toResource from "../../utils/to-resource";
+
 import "./index.css";
 
 const CARDS_API = "/api/scry/cards";
 
-const CardFinder = () => {
-  const [loading, cards, fetchCards] = useFetch(CARDS_API, {
-    mapper: (cards) => cards.data,
-    instant: false,
-  });
+const fetchCards = (q) =>
+  fetch(CARDS_API + "?q=" + q)
+    .then((res) => res.json())
+    .then((cards) => cards.data);
 
-  const search = (value) => {
-    fetchCards({ q: value });
+const CardFinder = () => {
+  const [cardsResource, setCardsResource] = useState(
+    toResource(Promise.resolve([]))
+  );
+
+  const searchForACards = (q) => {
+    const promise = fetchCards(q);
+    setCardsResource(toResource(promise));
   };
 
   return (
     <div className="CardFinder">
       <section>
-        <NamesInput onChange={search} />
+        <Suspense fallback={<Loader />}>
+          <CardNameInput onChange={searchForACards} />
+        </Suspense>
       </section>
-      {cards && cards.length && (
-        <section className="cards">
-          <CardsList loading={loading} cards={cards} />
-        </section>
-      )}
+      <Suspense fallback={<Loader />}>
+        <CardsList cardsResource={cardsResource} />
+      </Suspense>
     </div>
   );
 };

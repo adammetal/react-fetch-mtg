@@ -5,7 +5,9 @@ const DeckModel = require("./src/deck/deck.schema");
 
 const MONGO_URL = "mongodb://adam:123@localhost:27017/mtg";
 
-const initNames = () => {
+const initNames = async () => {
+  await NamesModel.deleteMany({});
+
   const names = database.getCardNames();
 
   const tasks = names.map((name) => {

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 
-export const AuthContext = createContext({ user: null });
+export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -50,6 +50,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const signout = () => {
+    localStorage.removeItem("token");
     setUser(null);
   };
 

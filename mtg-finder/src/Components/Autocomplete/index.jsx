@@ -14,7 +14,7 @@ const HitList = ({ hits, activeHit, selectHit, pending }) => {
 
     if (activeHit > -1) {
       const activeEl = hitsEl.current?.querySelector(".hit.active");
-      activeEl?.scrollIntoView({ block: 'center' });
+      activeEl?.scrollIntoView({ block: "center" });
     }
   }, [hits, pending, activeHit]);
 
@@ -63,7 +63,7 @@ const Autocomplete = ({ items, onChange, placeholder }) => {
       } else {
         setHits([]);
       }
-    });
+    })
 
     setInputValue(search);
     setActiveHit(-1);

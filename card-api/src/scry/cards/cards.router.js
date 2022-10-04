@@ -1,4 +1,4 @@
-const { request } = require("node:https");
+const { request } = require("https");
 const { Router } = require("express");
 
 const scry = new URL("https://api.scryfall.com/cards/search");

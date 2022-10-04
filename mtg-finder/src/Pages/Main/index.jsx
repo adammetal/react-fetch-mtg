@@ -17,18 +17,17 @@ const Main = () => {
         <header>
           <h1 className="title">MTG Finder</h1>
         </header>
-        <a href="#">Home</a>
-        <a href="#">Card finder</a>
+        <Link to="/">Home</Link>
 
         {!user && (
           <>
-            <a href="#">Sign up</a>
-            <Link to="/login">Sign in</Link>
+            <Link to="/signup">Sign up</Link>
+            <Link to="/signin">Sign in</Link>
           </>
         )}
 
         {user && (
-          <a href="#" onClick={signout}>
+          <a href="" onClick={signout}>
             Sign out
           </a>
         )}

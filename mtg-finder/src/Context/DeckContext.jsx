@@ -1,22 +1,10 @@
 import { useMemo } from "react";
 import { createContext, useCallback, useReducer, useContext } from "react";
 
-/**
- * decks: [{
- *    name: string
- *    cards: [{
- *      id: string
- *      name: string
- *      image: string
- *   }]
- * }]
- */
+
 const defState = {
   decks: [],
 };
-
-// fn -> action
-// { type: '', payload: {} }
 
 const reducer = (state, action) => {
   const payload = action.payload;
