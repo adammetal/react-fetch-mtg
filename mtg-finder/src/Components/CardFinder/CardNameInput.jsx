@@ -1,6 +1,4 @@
 import Autocomplete from "../Autocomplete";
-import { useContext } from "react";
-import { AuthContext } from "../../Context/AuthContext";
 import toResource from "../../utils/to-resource";
 
 const NAMES_API = "/api/names";
@@ -12,17 +10,16 @@ const fetchNames = () =>
 
 const cardNamesResouce = toResource(fetchNames());
 
-const NamesInput = ({ onChange }) => {
-  const { user } = useContext(AuthContext);
+const CardNameInput = ({ onChange }) => {
   const names = cardNamesResouce.read();
 
-  const placeholder = user
-    ? "Search for a card to your decks"
-    : "Search for a card";
-
   return (
-    <Autocomplete placeholder={placeholder} items={names} onChange={onChange} />
+    <Autocomplete
+      placeholder="Search for a card"
+      items={names}
+      onChange={onChange}
+    />
   );
 };
 
-export default NamesInput;
+export default CardNameInput;

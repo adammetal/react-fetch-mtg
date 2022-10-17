@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { useState, createContext, useEffect } from "react";
+import { Api } from "../Api";
 
 export const AuthContext = createContext();
 
@@ -32,6 +31,7 @@ const AuthProvider = ({ children }) => {
       })
       .then((user) => {
         setUser(user);
+        Api.setToken(token);
       })
       .catch((error) => {
         console.log(error);

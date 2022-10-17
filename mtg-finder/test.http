@@ -34,8 +34,8 @@ GET http://localhost:8080/api/user/decks
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWxAY29kZWNvb2wuY29tIiwiX2lkIjoiNjMyOTgwNzM3MjI2YjkwNDQ3M2YwNjZkIiwiaWF0IjoxNjY0MTkxMDgxfQ.ugzuV0hF3ghpuApl5CgStXQZRDGoKvcFWF5yuoAHC9E
 
 ###
-GET http://localhost:8080/api/user/decks/63298b5abc605f10aa997460
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWwrMUBjb2RlY29vbC5jb20iLCJfaWQiOiI2MzI5ODEyNWQ5ODliMjFkYjA4YzNmNzciLCJpYXQiOjE2NjM4NjEzMjh9.FcGS03y0VhvQB2o2mTtH6RtXzrtpebRYCnI53hXkIrI
+GET http://localhost:8080/api/user/decks
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWxAY29kZWNvb2wuY29tIiwiX2lkIjoiNjMyOTgwNzM3MjI2YjkwNDQ3M2YwNjZkIiwiaWF0IjoxNjY0MTkxMDgxfQ.ugzuV0hF3ghpuApl5CgStXQZRDGoKvcFWF5yuoAHC9E
 
 
 ###
@@ -46,3 +46,22 @@ Content-Type: application/json
 {
   "name": "Mono Raaad"
 }
+
+###
+curl 'http://localhost:3000/api/user/decks' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: hu-HU,hu;q=0.9,en-US;q=0.8,en;q=0.7' \
+  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkYW0ubWV0YWxAY29kZWNvb2wuY29tIiwiX2lkIjoiNjMyOTgwNzM3MjI2YjkwNDQ3M2YwNjZkIiwiaWF0IjoxNjY1MDU3MzI2fQ.vzsuTAgZxruWBb64G6OqRpvIg5EVyiNyBojKv7Ihmm0' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Origin: http://localhost:3000' \
+  -H 'Referer: http://localhost:3000/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  --data-raw '{"name":"murder"}' \
+  --compressed

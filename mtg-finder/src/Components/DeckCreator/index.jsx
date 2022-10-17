@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { useDeckActions } from "../../Context/DeckContext";
+import { Api } from "../../Api";
 import "./index.css";
 
+const idGen = (function* () {
+  let i = 1;
+  while (true) {
+    yield i++;
+  }
+})();
+
 const DeckCreator = () => {
-  const [newDeckName, setNewDeckName] = useState("");
-  const { addNewDeck } = useDeckActions();
+  const [name, setName] = useState("");
+  const { addNewDeck, deckCreated } = useDeckActions();
 
   const handleChange = (e) => {
-    setNewDeckName(e.target.value);
+    setName(e.target.value);
   };
 
   const handleKeyUp = (e) => {
@@ -19,19 +27,24 @@ const DeckCreator = () => {
   };
 
   const createDeck = () => {
-    if (!newDeckName.length) {
+    if (!name.length) {
       return;
     }
+    setName("");
 
-    addNewDeck(newDeckName);
-    setNewDeckName("");
+    const id = idGen.next().value;
+    
+    addNewDeck({ name, _id: id });
+    Api.post(`/api/user/decks`, { name }).then((deck) => {
+      deckCreated(deck, id);
+    });
   };
 
   return (
     <div className="DeckCreator">
       <input
         type="text"
-        value={newDeckName}
+        value={name}
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         placeholder="Name of new deck"

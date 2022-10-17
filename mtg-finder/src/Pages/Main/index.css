@@ -10,6 +10,7 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid black;
 }
 
 .Main > .outlet {
@@ -17,17 +18,23 @@
   position: relative;
 }
 
-.Main > .nav > a {
+.Main > .nav a {
   font-size: 1.5rem;
   text-decoration: none;
   color: rgb(220, 220, 220);
   background-color: rgb(80, 80, 80);
   margin: .5rem 0;
   padding: .3rem;
+  width: 100%;
+  display: block;
 }
 
 .Main > .nav .title {
   font-weight: bold;
   font-size: 1.8rem;
   text-decoration: underline;
+}
+
+.deck-loading {
+  opacity: 0.7;
 }

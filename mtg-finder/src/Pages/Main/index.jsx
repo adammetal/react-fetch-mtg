@@ -1,5 +1,5 @@
-import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useDeckStore } from "../../Context/DeckContext";
 import DeckCreator from "../../Components/DeckCreator";
@@ -38,9 +38,13 @@ const Main = () => {
               <h2>My Decks</h2>
             </header>
             {decks.map((deck) => (
-              <a herf="#" key={deck.name}>
-                {deck.name}
-              </a>
+              <div className="deck" key={deck._id}>
+                {deck.loading ? (
+                  <div className="deck-loading">{deck.name}</div>
+                ) : (
+                  <Link to={`/decks/${deck._id}`}>{deck.name}</Link>
+                )}
+              </div>
             ))}
             <DeckCreator />
           </>

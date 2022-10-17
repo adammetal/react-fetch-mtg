@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { createContext, useCallback, useReducer, useContext } from "react";
 
-
 const defState = {
   decks: [],
 };
@@ -9,12 +8,37 @@ const defState = {
 const reducer = (state, action) => {
   const payload = action.payload;
 
+  console.log(action, payload);
+
   switch (action.type) {
     case "add-new-deck":
       return {
         ...state,
-        decks: [...state.decks, { name: payload, cards: [] }],
+        decks: [
+          ...state.decks,
+          {
+            ...payload,
+            loading: true,
+            cards: [],
+          },
+        ],
       };
+    case "deck-created-on-be": {
+      return {
+        ...state,
+        decks: state.decks.map((deck) => {
+          if (deck._id !== payload.clientId) {
+            return deck;
+          }
+
+          return {
+            ...deck,
+            ...payload.deck,
+            loading: false,
+          };
+        }),
+      };
+    }
     default:
       return state;
   }
@@ -25,11 +49,18 @@ export const DeckContext = createContext();
 const DeckStoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, defState);
 
-  const addNewDeck = useCallback((name) => {
-    dispatch({ type: "add-new-deck", payload: name });
+  const addNewDeck = useCallback((deck) => {
+    dispatch({ type: "add-new-deck", payload: deck });
   }, []);
 
-  const actions = useMemo(() => ({ addNewDeck }), [addNewDeck]);
+  const deckCreated = useCallback((deck, clientId) => {
+    dispatch({ type: "deck-created-on-be", payload: { deck, clientId } });
+  }, []);
+
+  const actions = useMemo(
+    () => ({ addNewDeck, deckCreated }),
+    [addNewDeck, deckCreated]
+  );
 
   return (
     <DeckContext.Provider value={{ state, actions }}>

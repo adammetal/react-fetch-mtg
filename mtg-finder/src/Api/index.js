@@ -5,7 +5,7 @@ export class Api {
     Api.#token = token;
   }
 
-  static #addToken(options) {
+  static #withToken(options) {
     if (!Api.#token || !Api.#token.length) {
       return options;
     }
@@ -19,13 +19,13 @@ export class Api {
     };
   }
 
-  static #request(url, method) {
-    const options = Api.#addToken({ method });
+  static #request(url, method, signal = null) {
+    const options = Api.#withToken({ method, signal });
     return fetch(url, options).then((res) => res.json());
   }
 
-  static #requestWithPayload(url, method, payload) {
-    const options = Api.#addToken({
+  static #requestWithPayload(url, method, payload, signal = null) {
+    const options = Api.#withToken({
       method,
       headers: {
         "Content-Type": "application/json",
@@ -36,23 +36,23 @@ export class Api {
     return fetch(url, options).then((res) => res.json());
   }
 
-  static get(url) {
-    return Api.#request(url, "GET");
+  static get(url, signal = null) {
+    return Api.#request(url, "GET", signal);
   }
 
-  static delete(url) {
-    return Api.#request(url, "DELETE");
+  static delete(url, signal = null) {
+    return Api.#request(url, "DELETE", signal);
   }
 
-  static post(url, payload) {
-    return Api.#requestWithPayload(url, "POST", payload);
+  static post(url, payload, signal = null) {
+    return Api.#requestWithPayload(url, "POST", payload, signal);
   }
 
-  static patch(url, payload) {
-    return Api.#requestWithPayload(url, "PATCH", payload);
+  static patch(url, payload, signal = null) {
+    return Api.#requestWithPayload(url, "PATCH", payload, signal);
   }
 
-  static put(url, payload) {
-    return Api.#requestWithPayload(url, "PUT", payload);
+  static put(url, payload, signal = null) {
+    return Api.#requestWithPayload(url, "PUT", payload, signal);
   }
 }

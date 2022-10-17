@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Api } from "../../../Api";
 import { AuthContext } from "../../../Context/AuthContext";
 
 import "./index.css";
@@ -35,7 +36,8 @@ const AuthForm = ({ isSignIn }) => {
       .then((user) => {
         if (isSignIn) {
           signin(user);
-          return navigate('/');
+          Api.setToken(user.token);
+          return navigate("/");
         }
         navigate("/signin");
       })
